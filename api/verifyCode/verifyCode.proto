@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package api.verifyCode;
+
+option go_package = "kratosItems/api/verifyCode;verifyCode";
+option java_multiple_files = true;
+option java_package = "api.verifyCode";
+
+service VerifyCode {
+	rpc GetVerifyCode (GetVerifyCodeRequest) returns (GetVerifyCodeReply);
+}
+
+enum TYPE {
+  DEFAULT = 0;
+  DIGIT = 1;
+  LETTER = 2;
+  MIXED = 3;
+}
+//接口秦淮区
+message GetVerifyCodeRequest {
+  uint32 length = 32;
+  TYPE type = 2;
+
+}
+message GetVerifyCodeReply {
+  string code = 1;
+}

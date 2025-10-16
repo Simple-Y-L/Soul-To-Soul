@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package api.user;
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+option go_package = "kratosItems/api/user;user";
+option java_multiple_files = true;
+option java_package = "api.user";
+
+service User {
+  // 用户手机验证码登录 POST请求
+  rpc PassengerUserMobileLogin (UserLoginRegister) returns (PleaseReturn){
+    option (google.api.http) = {
+      post: "/passenger/mobile/login"
+      body: "*"
+    };
+  }
+}
+
+message UserLoginRegister{
+  string  mobile=1;
+  string sendSms=2;
+}
+
+// PleaseReturn 参数返回三要素
+message PleaseReturn{
+  int64 code=1;
+  string msg =2;
+  google.protobuf.Struct data=3;
+}
