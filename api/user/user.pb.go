@@ -23,10 +23,11 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// 手机验证码登录请求
 type UserLoginRegister struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Mobile        string                 `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty"`
-	SendSms       string                 `protobuf:"bytes,2,opt,name=sendSms,proto3" json:"sendSms,omitempty"`
+	Mobile        string                 `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty"`   // 手机号
+	SendSms       string                 `protobuf:"bytes,2,opt,name=sendSms,proto3" json:"sendSms,omitempty"` // 验证码
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -75,6 +76,319 @@ func (x *UserLoginRegister) GetSendSms() string {
 	return ""
 }
 
+// 用户注册请求
+type UserRegisterRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Mobile        string                 `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty"`     // 手机号
+	SendSms       string                 `protobuf:"bytes,2,opt,name=sendSms,proto3" json:"sendSms,omitempty"`   // 验证码
+	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"` // 密码
+	Nickname      string                 `protobuf:"bytes,4,opt,name=nickname,proto3" json:"nickname,omitempty"` // 昵称
+	Gender        string                 `protobuf:"bytes,5,opt,name=gender,proto3" json:"gender,omitempty"`     // 性别 male/female/unknown
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserRegisterRequest) Reset() {
+	*x = UserRegisterRequest{}
+	mi := &file_api_user_user_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserRegisterRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserRegisterRequest) ProtoMessage() {}
+
+func (x *UserRegisterRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_user_user_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserRegisterRequest.ProtoReflect.Descriptor instead.
+func (*UserRegisterRequest) Descriptor() ([]byte, []int) {
+	return file_api_user_user_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *UserRegisterRequest) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *UserRegisterRequest) GetSendSms() string {
+	if x != nil {
+		return x.SendSms
+	}
+	return ""
+}
+
+func (x *UserRegisterRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *UserRegisterRequest) GetNickname() string {
+	if x != nil {
+		return x.Nickname
+	}
+	return ""
+}
+
+func (x *UserRegisterRequest) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+// 密码登录请求
+type UserPasswordLoginRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Mobile        string                 `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty"`     // 手机号
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"` // 密码
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserPasswordLoginRequest) Reset() {
+	*x = UserPasswordLoginRequest{}
+	mi := &file_api_user_user_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserPasswordLoginRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserPasswordLoginRequest) ProtoMessage() {}
+
+func (x *UserPasswordLoginRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_user_user_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserPasswordLoginRequest.ProtoReflect.Descriptor instead.
+func (*UserPasswordLoginRequest) Descriptor() ([]byte, []int) {
+	return file_api_user_user_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UserPasswordLoginRequest) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *UserPasswordLoginRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+// 获取用户信息请求
+type GetUserInfoRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户ID
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserInfoRequest) Reset() {
+	*x = GetUserInfoRequest{}
+	mi := &file_api_user_user_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserInfoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserInfoRequest) ProtoMessage() {}
+
+func (x *GetUserInfoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_user_user_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserInfoRequest.ProtoReflect.Descriptor instead.
+func (*GetUserInfoRequest) Descriptor() ([]byte, []int) {
+	return file_api_user_user_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetUserInfoRequest) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// 更新用户信息请求
+type UpdateUserInfoRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`         // 用户ID
+	Nickname      string                 `protobuf:"bytes,2,opt,name=nickname,proto3" json:"nickname,omitempty"`                    // 昵称
+	AvatarUrl     string                 `protobuf:"bytes,3,opt,name=avatar_url,json=avatarUrl,proto3" json:"avatar_url,omitempty"` // 头像URL
+	Gender        string                 `protobuf:"bytes,4,opt,name=gender,proto3" json:"gender,omitempty"`                        // 性别
+	Birthday      string                 `protobuf:"bytes,5,opt,name=birthday,proto3" json:"birthday,omitempty"`                    // 生日 YYYY-MM-DD
+	Intro         string                 `protobuf:"bytes,6,opt,name=intro,proto3" json:"intro,omitempty"`                          // 个人简介
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateUserInfoRequest) Reset() {
+	*x = UpdateUserInfoRequest{}
+	mi := &file_api_user_user_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateUserInfoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserInfoRequest) ProtoMessage() {}
+
+func (x *UpdateUserInfoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_user_user_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserInfoRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUserInfoRequest) Descriptor() ([]byte, []int) {
+	return file_api_user_user_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateUserInfoRequest) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *UpdateUserInfoRequest) GetNickname() string {
+	if x != nil {
+		return x.Nickname
+	}
+	return ""
+}
+
+func (x *UpdateUserInfoRequest) GetAvatarUrl() string {
+	if x != nil {
+		return x.AvatarUrl
+	}
+	return ""
+}
+
+func (x *UpdateUserInfoRequest) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+func (x *UpdateUserInfoRequest) GetBirthday() string {
+	if x != nil {
+		return x.Birthday
+	}
+	return ""
+}
+
+func (x *UpdateUserInfoRequest) GetIntro() string {
+	if x != nil {
+		return x.Intro
+	}
+	return ""
+}
+
+// 发送验证码请求
+type SendVerifyCodeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Mobile        string                 `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty"` // 手机号
+	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`     // 验证码类型 login/register
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SendVerifyCodeRequest) Reset() {
+	*x = SendVerifyCodeRequest{}
+	mi := &file_api_user_user_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SendVerifyCodeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendVerifyCodeRequest) ProtoMessage() {}
+
+func (x *SendVerifyCodeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_user_user_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendVerifyCodeRequest.ProtoReflect.Descriptor instead.
+func (*SendVerifyCodeRequest) Descriptor() ([]byte, []int) {
+	return file_api_user_user_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *SendVerifyCodeRequest) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *SendVerifyCodeRequest) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
 // PleaseReturn 参数返回三要素
 type PleaseReturn struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -87,7 +401,7 @@ type PleaseReturn struct {
 
 func (x *PleaseReturn) Reset() {
 	*x = PleaseReturn{}
-	mi := &file_api_user_user_proto_msgTypes[1]
+	mi := &file_api_user_user_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -99,7 +413,7 @@ func (x *PleaseReturn) String() string {
 func (*PleaseReturn) ProtoMessage() {}
 
 func (x *PleaseReturn) ProtoReflect() protoreflect.Message {
-	mi := &file_api_user_user_proto_msgTypes[1]
+	mi := &file_api_user_user_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -112,7 +426,7 @@ func (x *PleaseReturn) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PleaseReturn.ProtoReflect.Descriptor instead.
 func (*PleaseReturn) Descriptor() ([]byte, []int) {
-	return file_api_user_user_proto_rawDescGZIP(), []int{1}
+	return file_api_user_user_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *PleaseReturn) GetCode() int64 {
@@ -143,13 +457,41 @@ const file_api_user_user_proto_rawDesc = "" +
 	"\x13api/user/user.proto\x12\bapi.user\x1a\x1cgoogle/api/annotations.proto\x1a\x1cgoogle/protobuf/struct.proto\"E\n" +
 	"\x11UserLoginRegister\x12\x16\n" +
 	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x18\n" +
-	"\asendSms\x18\x02 \x01(\tR\asendSms\"a\n" +
+	"\asendSms\x18\x02 \x01(\tR\asendSms\"\x97\x01\n" +
+	"\x13UserRegisterRequest\x12\x16\n" +
+	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x18\n" +
+	"\asendSms\x18\x02 \x01(\tR\asendSms\x12\x1a\n" +
+	"\bpassword\x18\x03 \x01(\tR\bpassword\x12\x1a\n" +
+	"\bnickname\x18\x04 \x01(\tR\bnickname\x12\x16\n" +
+	"\x06gender\x18\x05 \x01(\tR\x06gender\"N\n" +
+	"\x18UserPasswordLoginRequest\x12\x16\n" +
+	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"-\n" +
+	"\x12GetUserInfoRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\"\xb5\x01\n" +
+	"\x15UpdateUserInfoRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1a\n" +
+	"\bnickname\x18\x02 \x01(\tR\bnickname\x12\x1d\n" +
+	"\n" +
+	"avatar_url\x18\x03 \x01(\tR\tavatarUrl\x12\x16\n" +
+	"\x06gender\x18\x04 \x01(\tR\x06gender\x12\x1a\n" +
+	"\bbirthday\x18\x05 \x01(\tR\bbirthday\x12\x14\n" +
+	"\x05intro\x18\x06 \x01(\tR\x05intro\"C\n" +
+	"\x15SendVerifyCodeRequest\x12\x16\n" +
+	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x12\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type\"a\n" +
 	"\fPleaseReturn\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x12+\n" +
-	"\x04data\x18\x03 \x01(\v2\x17.google.protobuf.StructR\x04data2{\n" +
+	"\x04data\x18\x03 \x01(\v2\x17.google.protobuf.StructR\x04data2\xa4\x05\n" +
 	"\x04User\x12s\n" +
-	"\x18PassengerUserMobileLogin\x12\x1b.api.user.UserLoginRegister\x1a\x16.api.user.PleaseReturn\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/passenger/mobile/loginB'\n" +
+	"\x18PassengerUserMobileLogin\x12\x1b.api.user.UserLoginRegister\x1a\x16.api.user.PleaseReturn\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/passenger/mobile/login\x12{\n" +
+	"\x1bPassengerUserMobileRegister\x12\x1d.api.user.UserRegisterRequest\x1a\x16.api.user.PleaseReturn\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/passenger/mobile/register\x12~\n" +
+	"\x1aPassengerUserPasswordLogin\x12\".api.user.UserPasswordLoginRequest\x1a\x16.api.user.PleaseReturn\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/passenger/password/login\x12a\n" +
+	"\vGetUserInfo\x12\x1c.api.user.GetUserInfoRequest\x1a\x16.api.user.PleaseReturn\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/user/info/{user_id}\x12`\n" +
+	"\x0eUpdateUserInfo\x12\x1f.api.user.UpdateUserInfoRequest\x1a\x16.api.user.PleaseReturn\"\x15\x82\xd3\xe4\x93\x02\x0f:\x01*\"\n" +
+	"/user/info\x12e\n" +
+	"\x0eSendVerifyCode\x12\x1f.api.user.SendVerifyCodeRequest\x1a\x16.api.user.PleaseReturn\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/user/send-codeB'\n" +
 	"\bapi.userP\x01Z\x19kratosItems/api/user;userb\x06proto3"
 
 var (
@@ -164,18 +506,33 @@ func file_api_user_user_proto_rawDescGZIP() []byte {
 	return file_api_user_user_proto_rawDescData
 }
 
-var file_api_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_api_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_api_user_user_proto_goTypes = []any{
-	(*UserLoginRegister)(nil), // 0: api.user.UserLoginRegister
-	(*PleaseReturn)(nil),      // 1: api.user.PleaseReturn
-	(*structpb.Struct)(nil),   // 2: google.protobuf.Struct
+	(*UserLoginRegister)(nil),        // 0: api.user.UserLoginRegister
+	(*UserRegisterRequest)(nil),      // 1: api.user.UserRegisterRequest
+	(*UserPasswordLoginRequest)(nil), // 2: api.user.UserPasswordLoginRequest
+	(*GetUserInfoRequest)(nil),       // 3: api.user.GetUserInfoRequest
+	(*UpdateUserInfoRequest)(nil),    // 4: api.user.UpdateUserInfoRequest
+	(*SendVerifyCodeRequest)(nil),    // 5: api.user.SendVerifyCodeRequest
+	(*PleaseReturn)(nil),             // 6: api.user.PleaseReturn
+	(*structpb.Struct)(nil),          // 7: google.protobuf.Struct
 }
 var file_api_user_user_proto_depIdxs = []int32{
-	2, // 0: api.user.PleaseReturn.data:type_name -> google.protobuf.Struct
+	7, // 0: api.user.PleaseReturn.data:type_name -> google.protobuf.Struct
 	0, // 1: api.user.User.PassengerUserMobileLogin:input_type -> api.user.UserLoginRegister
-	1, // 2: api.user.User.PassengerUserMobileLogin:output_type -> api.user.PleaseReturn
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
+	1, // 2: api.user.User.PassengerUserMobileRegister:input_type -> api.user.UserRegisterRequest
+	2, // 3: api.user.User.PassengerUserPasswordLogin:input_type -> api.user.UserPasswordLoginRequest
+	3, // 4: api.user.User.GetUserInfo:input_type -> api.user.GetUserInfoRequest
+	4, // 5: api.user.User.UpdateUserInfo:input_type -> api.user.UpdateUserInfoRequest
+	5, // 6: api.user.User.SendVerifyCode:input_type -> api.user.SendVerifyCodeRequest
+	6, // 7: api.user.User.PassengerUserMobileLogin:output_type -> api.user.PleaseReturn
+	6, // 8: api.user.User.PassengerUserMobileRegister:output_type -> api.user.PleaseReturn
+	6, // 9: api.user.User.PassengerUserPasswordLogin:output_type -> api.user.PleaseReturn
+	6, // 10: api.user.User.GetUserInfo:output_type -> api.user.PleaseReturn
+	6, // 11: api.user.User.UpdateUserInfo:output_type -> api.user.PleaseReturn
+	6, // 12: api.user.User.SendVerifyCode:output_type -> api.user.PleaseReturn
+	7, // [7:13] is the sub-list for method output_type
+	1, // [1:7] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
@@ -192,7 +549,7 @@ func file_api_user_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_user_user_proto_rawDesc), len(file_api_user_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
