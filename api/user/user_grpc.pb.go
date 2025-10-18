@@ -19,7 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_PassengerUserMobileLogin_FullMethodName = "/api.user.User/PassengerUserMobileLogin"
+	User_PassengerUserMobileLogin_FullMethodName    = "/api.user.User/PassengerUserMobileLogin"
+	User_PassengerUserMobileRegister_FullMethodName = "/api.user.User/PassengerUserMobileRegister"
+	User_PassengerUserPasswordLogin_FullMethodName  = "/api.user.User/PassengerUserPasswordLogin"
+	User_GetUserInfo_FullMethodName                 = "/api.user.User/GetUserInfo"
+	User_UpdateUserInfo_FullMethodName              = "/api.user.User/UpdateUserInfo"
+	User_SendVerifyCode_FullMethodName              = "/api.user.User/SendVerifyCode"
 )
 
 // UserClient is the client API for User service.
@@ -28,6 +33,16 @@ const (
 type UserClient interface {
 	// 用户手机验证码登录 POST请求
 	PassengerUserMobileLogin(ctx context.Context, in *UserLoginRegister, opts ...grpc.CallOption) (*PleaseReturn, error)
+	// 用户手机验证码注册 POST请求
+	PassengerUserMobileRegister(ctx context.Context, in *UserRegisterRequest, opts ...grpc.CallOption) (*PleaseReturn, error)
+	// 用户密码登录 POST请求
+	PassengerUserPasswordLogin(ctx context.Context, in *UserPasswordLoginRequest, opts ...grpc.CallOption) (*PleaseReturn, error)
+	// 获取用户信息 GET请求
+	GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*PleaseReturn, error)
+	// 更新用户信息 PUT请求
+	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoRequest, opts ...grpc.CallOption) (*PleaseReturn, error)
+	// 发送验证码 POST请求
+	SendVerifyCode(ctx context.Context, in *SendVerifyCodeRequest, opts ...grpc.CallOption) (*PleaseReturn, error)
 }
 
 type userClient struct {
@@ -48,12 +63,72 @@ func (c *userClient) PassengerUserMobileLogin(ctx context.Context, in *UserLogin
 	return out, nil
 }
 
+func (c *userClient) PassengerUserMobileRegister(ctx context.Context, in *UserRegisterRequest, opts ...grpc.CallOption) (*PleaseReturn, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PleaseReturn)
+	err := c.cc.Invoke(ctx, User_PassengerUserMobileRegister_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) PassengerUserPasswordLogin(ctx context.Context, in *UserPasswordLoginRequest, opts ...grpc.CallOption) (*PleaseReturn, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PleaseReturn)
+	err := c.cc.Invoke(ctx, User_PassengerUserPasswordLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*PleaseReturn, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PleaseReturn)
+	err := c.cc.Invoke(ctx, User_GetUserInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoRequest, opts ...grpc.CallOption) (*PleaseReturn, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PleaseReturn)
+	err := c.cc.Invoke(ctx, User_UpdateUserInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) SendVerifyCode(ctx context.Context, in *SendVerifyCodeRequest, opts ...grpc.CallOption) (*PleaseReturn, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PleaseReturn)
+	err := c.cc.Invoke(ctx, User_SendVerifyCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
 type UserServer interface {
 	// 用户手机验证码登录 POST请求
 	PassengerUserMobileLogin(context.Context, *UserLoginRegister) (*PleaseReturn, error)
+	// 用户手机验证码注册 POST请求
+	PassengerUserMobileRegister(context.Context, *UserRegisterRequest) (*PleaseReturn, error)
+	// 用户密码登录 POST请求
+	PassengerUserPasswordLogin(context.Context, *UserPasswordLoginRequest) (*PleaseReturn, error)
+	// 获取用户信息 GET请求
+	GetUserInfo(context.Context, *GetUserInfoRequest) (*PleaseReturn, error)
+	// 更新用户信息 PUT请求
+	UpdateUserInfo(context.Context, *UpdateUserInfoRequest) (*PleaseReturn, error)
+	// 发送验证码 POST请求
+	SendVerifyCode(context.Context, *SendVerifyCodeRequest) (*PleaseReturn, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -66,6 +141,21 @@ type UnimplementedUserServer struct{}
 
 func (UnimplementedUserServer) PassengerUserMobileLogin(context.Context, *UserLoginRegister) (*PleaseReturn, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PassengerUserMobileLogin not implemented")
+}
+func (UnimplementedUserServer) PassengerUserMobileRegister(context.Context, *UserRegisterRequest) (*PleaseReturn, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PassengerUserMobileRegister not implemented")
+}
+func (UnimplementedUserServer) PassengerUserPasswordLogin(context.Context, *UserPasswordLoginRequest) (*PleaseReturn, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PassengerUserPasswordLogin not implemented")
+}
+func (UnimplementedUserServer) GetUserInfo(context.Context, *GetUserInfoRequest) (*PleaseReturn, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedUserServer) UpdateUserInfo(context.Context, *UpdateUserInfoRequest) (*PleaseReturn, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
+}
+func (UnimplementedUserServer) SendVerifyCode(context.Context, *SendVerifyCodeRequest) (*PleaseReturn, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendVerifyCode not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -106,6 +196,96 @@ func _User_PassengerUserMobileLogin_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_PassengerUserMobileRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRegisterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).PassengerUserMobileRegister(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_PassengerUserMobileRegister_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).PassengerUserMobileRegister(ctx, req.(*UserRegisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_PassengerUserPasswordLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserPasswordLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).PassengerUserPasswordLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_PassengerUserPasswordLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).PassengerUserPasswordLogin(ctx, req.(*UserPasswordLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetUserInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetUserInfo(ctx, req.(*GetUserInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdateUserInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateUserInfo(ctx, req.(*UpdateUserInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_SendVerifyCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendVerifyCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).SendVerifyCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_SendVerifyCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).SendVerifyCode(ctx, req.(*SendVerifyCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -116,6 +296,26 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PassengerUserMobileLogin",
 			Handler:    _User_PassengerUserMobileLogin_Handler,
+		},
+		{
+			MethodName: "PassengerUserMobileRegister",
+			Handler:    _User_PassengerUserMobileRegister_Handler,
+		},
+		{
+			MethodName: "PassengerUserPasswordLogin",
+			Handler:    _User_PassengerUserPasswordLogin_Handler,
+		},
+		{
+			MethodName: "GetUserInfo",
+			Handler:    _User_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "UpdateUserInfo",
+			Handler:    _User_UpdateUserInfo_Handler,
+		},
+		{
+			MethodName: "SendVerifyCode",
+			Handler:    _User_SendVerifyCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

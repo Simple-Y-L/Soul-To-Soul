@@ -1,0 +1,179 @@
+syntax = "proto3";
+
+package api.live;
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "kratosItems/api/live;live";
+option java_multiple_files = true;
+option java_package = "api.live";
+
+
+
+service Live {
+
+
+  // =======================直播间管理==========================
+  // 创建直播间
+	rpc CreateLiveRoom (CreateLiveRoomRequest) returns (PleaseReturn) {
+    option (google.api.http) = {
+      post: "/live/room/create"
+      body: "*"
+    };
+  };
+	// 开始直播
+  rpc StartLive (StartLiveRequest) returns (PleaseReturn) {
+    option (google.api.http) = {
+      post: "/live/room/{room_id}/start"
+      body: "*"
+    };
+  }
+  // 结束直播
+  rpc StopLive(StopLiveRequest) returns (PleaseReturn) {
+    option (google.api.http) = {
+      post: "/live/room/{room_id}/stop"
+      body: "*"
+    };
+  }
+  // 获取直播间信息
+  rpc GetLiveRoom (GetLiveRoomRequest) returns (PleaseReturn) {
+    option (google.api.http) = {
+      get: "/live/room/{room_id}"
+    };
+  }
+  // 获取直播间列表
+  rpc GetLiveRoomList (GetLiveRoomListRequest) returns (PleaseReturn) {
+    option (google.api.http) = {
+      get: "/live/rooms"
+    };
+  }
+  // 更新直播间信息
+  rpc UpdateLiveRoom (UpdateLiveRoomRequest) returns (PleaseReturn) {
+    option (google.api.http) = {
+      post: "/live/room/{room_id}"
+      body: "*"
+    };
+  }
+
+  // =======================观众管理==========================
+  // 进入直播间
+  rpc JoinLiveRoom (JoinLiveRoomRequest) returns (PleaseReturn) {
+    option (google.api.http) = {
+      post: "/live/room/{room_id}/join"
+      body: "*"
+    };
+  }
+  // 退出直播间
+  rpc LeaveLiveRoom (LeaveLiveRoomRequest) returns(PleaseReturn){
+    option (google.api.http) = {
+      post: "/live/room/{room_id}/leave"
+      body: "*"
+    };
+  }
+  // 获取观众列表
+  rpc GetViewerList (GetViewerListRequest) returns(PleaseReturn){
+    option (google.api.http) = {
+      get: "/live/room/{room_id}/viewers"
+    };
+  }
+}
+// ==================== 枚举定义 ====================
+
+// 直播间状态
+enum LiveRoomStatus {
+  ROOM_CREATED = 0;    // 已创建
+  ROOM_LIVE = 1;       // 直播中
+  ROOM_PAUSED = 2;     // 暂停
+  ROOM_ENDED = 3;      // 已结束
+  ROOM_BANNED = 4;     // 被封禁
+}
+
+// 直播类型
+enum LiveType {
+  NORMAL = 0;          // 普通直播
+  GAME = 1;            // 游戏直播
+  MUSIC = 2;           // 音乐直播
+  CHAT = 3;            // 聊天直播
+  EDUCATION = 4;       // 教育直播
+}
+
+// 礼物类型
+enum GiftType {
+  FLOWER = 0;          // 鲜花
+  HEART = 1;           // 爱心
+  ROCKET = 2;          // 火箭
+  CROWN = 3;           // 皇冠
+}
+
+// ==================== 请求消息 ====================
+
+message CreateLiveRoomRequest{
+  int64  user_id = 1;
+  string title = 2;
+  string description = 3;
+  string cover_url = 4;
+  LiveType live_type = 5;
+  repeated string tags = 6;
+  bool is_private = 7;
+  string password = 8;
+}
+
+message StartLiveRequest {
+  int64 room_id  =1;
+  int64 user_id  =2;
+}
+
+message StopLiveRequest {
+  int64 room_id  =1;
+  int64 user_id  =2;
+}
+
+message GetLiveRoomRequest {
+  int64 room_id  =1;
+  int64 user_id  =2;
+}
+
+message GetLiveRoomListRequest {
+  int32 page = 1;              // 页码
+  int32 page_size = 2;         // 每页数量
+  LiveType live_type = 3;      // 直播类型筛选
+  string keyword = 4;          // 搜索关键词
+  string sort_by = 5;          // 排序方式: popularity, create_time, viewer_count
+}
+
+message UpdateLiveRoomRequest {
+  int64 room_id = 1;           // 直播间ID
+  int64 user_id = 2;           // 主播用户ID
+  string title = 3;            // 直播间标题
+  string description = 4;      // 直播间描述
+  string cover_url = 5;        // 封面图片URL
+  repeated string tags = 6;    // 标签列表
+}
+
+message JoinLiveRoomRequest {
+  int64 room_id = 1;
+  int64 user_id = 2;
+  string password = 3;
+}
+
+message LeaveLiveRoomRequest {
+  int64 room_id = 1;
+  int64 user_id = 2;
+}
+
+message GetViewerListRequest {
+  int64 room_id = 1;
+  int64 page =2;
+  int32 page_size = 3;
+}
+
+
+
+
+// PleaseReturn 参数返回三要素
+message PleaseReturn{
+  int64 code = 1;
+  string msg = 2;
+  google.protobuf.Struct data = 3;
+}

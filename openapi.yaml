@@ -31,6 +31,131 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /passenger/mobile/register:
+        post:
+            tags:
+                - User
+            description: 用户手机验证码注册 POST请求
+            operationId: User_PassengerUserMobileRegister
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserRegisterRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PleaseReturn'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /passenger/password/login:
+        post:
+            tags:
+                - User
+            description: 用户密码登录 POST请求
+            operationId: User_PassengerUserPasswordLogin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserPasswordLoginRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PleaseReturn'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /user/info:
+        post:
+            tags:
+                - User
+            description: 更新用户信息 PUT请求
+            operationId: User_UpdateUserInfo
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateUserInfoRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PleaseReturn'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /user/info/{userId}:
+        get:
+            tags:
+                - User
+            description: 获取用户信息 GET请求
+            operationId: User_GetUserInfo
+            parameters:
+                - name: userId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PleaseReturn'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /user/send-code:
+        post:
+            tags:
+                - User
+            description: 发送验证码 POST请求
+            operationId: User_SendVerifyCode
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SendVerifyCodeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PleaseReturn'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
         GoogleProtobufAny:
@@ -51,6 +176,14 @@ components:
                 data:
                     type: object
             description: PleaseReturn 参数返回三要素
+        SendVerifyCodeRequest:
+            type: object
+            properties:
+                mobile:
+                    type: string
+                type:
+                    type: string
+            description: 发送验证码请求
         Status:
             type: object
             properties:
@@ -67,6 +200,22 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        UpdateUserInfoRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                nickname:
+                    type: string
+                avatarUrl:
+                    type: string
+                gender:
+                    type: string
+                birthday:
+                    type: string
+                intro:
+                    type: string
+            description: 更新用户信息请求
         UserLoginRegister:
             type: object
             properties:
@@ -74,5 +223,28 @@ components:
                     type: string
                 sendSms:
                     type: string
+            description: 手机验证码登录请求
+        UserPasswordLoginRequest:
+            type: object
+            properties:
+                mobile:
+                    type: string
+                password:
+                    type: string
+            description: 密码登录请求
+        UserRegisterRequest:
+            type: object
+            properties:
+                mobile:
+                    type: string
+                sendSms:
+                    type: string
+                password:
+                    type: string
+                nickname:
+                    type: string
+                gender:
+                    type: string
+            description: 用户注册请求
 tags:
     - name: User

@@ -19,16 +19,36 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationUserGetUserInfo = "/api.user.User/GetUserInfo"
 const OperationUserPassengerUserMobileLogin = "/api.user.User/PassengerUserMobileLogin"
+const OperationUserPassengerUserMobileRegister = "/api.user.User/PassengerUserMobileRegister"
+const OperationUserPassengerUserPasswordLogin = "/api.user.User/PassengerUserPasswordLogin"
+const OperationUserSendVerifyCode = "/api.user.User/SendVerifyCode"
+const OperationUserUpdateUserInfo = "/api.user.User/UpdateUserInfo"
 
 type UserHTTPServer interface {
+	// GetUserInfo 获取用户信息 GET请求
+	GetUserInfo(context.Context, *GetUserInfoRequest) (*PleaseReturn, error)
 	// PassengerUserMobileLogin 用户手机验证码登录 POST请求
 	PassengerUserMobileLogin(context.Context, *UserLoginRegister) (*PleaseReturn, error)
+	// PassengerUserMobileRegister 用户手机验证码注册 POST请求
+	PassengerUserMobileRegister(context.Context, *UserRegisterRequest) (*PleaseReturn, error)
+	// PassengerUserPasswordLogin 用户密码登录 POST请求
+	PassengerUserPasswordLogin(context.Context, *UserPasswordLoginRequest) (*PleaseReturn, error)
+	// SendVerifyCode 发送验证码 POST请求
+	SendVerifyCode(context.Context, *SendVerifyCodeRequest) (*PleaseReturn, error)
+	// UpdateUserInfo 更新用户信息 PUT请求
+	UpdateUserInfo(context.Context, *UpdateUserInfoRequest) (*PleaseReturn, error)
 }
 
 func RegisterUserHTTPServer(s *http.Server, srv UserHTTPServer) {
 	r := s.Route("/")
 	r.POST("/passenger/mobile/login", _User_PassengerUserMobileLogin0_HTTP_Handler(srv))
+	r.POST("/passenger/mobile/register", _User_PassengerUserMobileRegister0_HTTP_Handler(srv))
+	r.POST("/passenger/password/login", _User_PassengerUserPasswordLogin0_HTTP_Handler(srv))
+	r.GET("/user/info/{user_id}", _User_GetUserInfo0_HTTP_Handler(srv))
+	r.POST("/user/info", _User_UpdateUserInfo0_HTTP_Handler(srv))
+	r.POST("/user/send-code", _User_SendVerifyCode0_HTTP_Handler(srv))
 }
 
 func _User_PassengerUserMobileLogin0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
@@ -53,9 +73,129 @@ func _User_PassengerUserMobileLogin0_HTTP_Handler(srv UserHTTPServer) func(ctx h
 	}
 }
 
+func _User_PassengerUserMobileRegister0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UserRegisterRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserPassengerUserMobileRegister)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.PassengerUserMobileRegister(ctx, req.(*UserRegisterRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*PleaseReturn)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _User_PassengerUserPasswordLogin0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UserPasswordLoginRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserPassengerUserPasswordLogin)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.PassengerUserPasswordLogin(ctx, req.(*UserPasswordLoginRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*PleaseReturn)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _User_GetUserInfo0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetUserInfoRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserGetUserInfo)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetUserInfo(ctx, req.(*GetUserInfoRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*PleaseReturn)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _User_UpdateUserInfo0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateUserInfoRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserUpdateUserInfo)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateUserInfo(ctx, req.(*UpdateUserInfoRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*PleaseReturn)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _User_SendVerifyCode0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SendVerifyCodeRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserSendVerifyCode)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.SendVerifyCode(ctx, req.(*SendVerifyCodeRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*PleaseReturn)
+		return ctx.Result(200, reply)
+	}
+}
+
 type UserHTTPClient interface {
+	// GetUserInfo 获取用户信息 GET请求
+	GetUserInfo(ctx context.Context, req *GetUserInfoRequest, opts ...http.CallOption) (rsp *PleaseReturn, err error)
 	// PassengerUserMobileLogin 用户手机验证码登录 POST请求
 	PassengerUserMobileLogin(ctx context.Context, req *UserLoginRegister, opts ...http.CallOption) (rsp *PleaseReturn, err error)
+	// PassengerUserMobileRegister 用户手机验证码注册 POST请求
+	PassengerUserMobileRegister(ctx context.Context, req *UserRegisterRequest, opts ...http.CallOption) (rsp *PleaseReturn, err error)
+	// PassengerUserPasswordLogin 用户密码登录 POST请求
+	PassengerUserPasswordLogin(ctx context.Context, req *UserPasswordLoginRequest, opts ...http.CallOption) (rsp *PleaseReturn, err error)
+	// SendVerifyCode 发送验证码 POST请求
+	SendVerifyCode(ctx context.Context, req *SendVerifyCodeRequest, opts ...http.CallOption) (rsp *PleaseReturn, err error)
+	// UpdateUserInfo 更新用户信息 PUT请求
+	UpdateUserInfo(ctx context.Context, req *UpdateUserInfoRequest, opts ...http.CallOption) (rsp *PleaseReturn, err error)
 }
 
 type UserHTTPClientImpl struct {
@@ -66,12 +206,82 @@ func NewUserHTTPClient(client *http.Client) UserHTTPClient {
 	return &UserHTTPClientImpl{client}
 }
 
+// GetUserInfo 获取用户信息 GET请求
+func (c *UserHTTPClientImpl) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...http.CallOption) (*PleaseReturn, error) {
+	var out PleaseReturn
+	pattern := "/user/info/{user_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationUserGetUserInfo))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 // PassengerUserMobileLogin 用户手机验证码登录 POST请求
 func (c *UserHTTPClientImpl) PassengerUserMobileLogin(ctx context.Context, in *UserLoginRegister, opts ...http.CallOption) (*PleaseReturn, error) {
 	var out PleaseReturn
 	pattern := "/passenger/mobile/login"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationUserPassengerUserMobileLogin))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// PassengerUserMobileRegister 用户手机验证码注册 POST请求
+func (c *UserHTTPClientImpl) PassengerUserMobileRegister(ctx context.Context, in *UserRegisterRequest, opts ...http.CallOption) (*PleaseReturn, error) {
+	var out PleaseReturn
+	pattern := "/passenger/mobile/register"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserPassengerUserMobileRegister))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// PassengerUserPasswordLogin 用户密码登录 POST请求
+func (c *UserHTTPClientImpl) PassengerUserPasswordLogin(ctx context.Context, in *UserPasswordLoginRequest, opts ...http.CallOption) (*PleaseReturn, error) {
+	var out PleaseReturn
+	pattern := "/passenger/password/login"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserPassengerUserPasswordLogin))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// SendVerifyCode 发送验证码 POST请求
+func (c *UserHTTPClientImpl) SendVerifyCode(ctx context.Context, in *SendVerifyCodeRequest, opts ...http.CallOption) (*PleaseReturn, error) {
+	var out PleaseReturn
+	pattern := "/user/send-code"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserSendVerifyCode))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// UpdateUserInfo 更新用户信息 PUT请求
+func (c *UserHTTPClientImpl) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoRequest, opts ...http.CallOption) (*PleaseReturn, error) {
+	var out PleaseReturn
+	pattern := "/user/info"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserUpdateUserInfo))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

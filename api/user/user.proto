@@ -15,16 +15,92 @@ service User {
       body: "*"
     };
   }
+  
+  // 用户手机验证码注册 POST请求
+  rpc PassengerUserMobileRegister (UserRegisterRequest) returns (PleaseReturn){
+    option (google.api.http) = {
+      post: "/passenger/mobile/register"
+      body: "*"
+    };
+  }
+  
+  // 用户密码登录 POST请求
+  rpc PassengerUserPasswordLogin (UserPasswordLoginRequest) returns (PleaseReturn){
+    option (google.api.http) = {
+      post: "/passenger/password/login"
+      body: "*"
+    };
+  }
+  
+  // 获取用户信息 GET请求
+  rpc GetUserInfo (GetUserInfoRequest) returns (PleaseReturn){
+    option (google.api.http) = {
+      get: "/user/info/{user_id}"
+    };
+  }
+  
+  // 更新用户信息 PUT请求
+  rpc UpdateUserInfo (UpdateUserInfoRequest) returns (PleaseReturn){
+    option (google.api.http) = {
+      post: "/user/info"
+      body: "*"
+    };
+  }
+  
+  // 发送验证码 POST请求
+  rpc SendVerifyCode (SendVerifyCodeRequest) returns (PleaseReturn){
+    option (google.api.http) = {
+      post: "/user/send-code"
+      body: "*"
+    };
+  }
 }
 
+// 手机验证码登录请求
 message UserLoginRegister{
-  string  mobile=1;
-  string sendSms=2;
+  string mobile = 1;      // 手机号
+  string sendSms = 2;     // 验证码
+}
+
+// 用户注册请求
+message UserRegisterRequest{
+  string mobile = 1;      // 手机号
+  string sendSms = 2;     // 验证码
+  string password = 3;    // 密码
+  string nickname = 4;    // 昵称
+  string gender = 5;      // 性别 male/female/unknown
+}
+
+// 密码登录请求
+message UserPasswordLoginRequest{
+  string mobile = 1;      // 手机号
+  string password = 2;    // 密码
+}
+
+// 获取用户信息请求
+message GetUserInfoRequest{
+  int64 user_id = 1;      // 用户ID
+}
+
+// 更新用户信息请求
+message UpdateUserInfoRequest{
+  int64 user_id = 1;      // 用户ID
+  string nickname = 2;    // 昵称
+  string avatar_url = 3;  // 头像URL
+  string gender = 4;      // 性别
+  string birthday = 5;    // 生日 YYYY-MM-DD
+  string intro = 6;       // 个人简介
+}
+
+// 发送验证码请求
+message SendVerifyCodeRequest{
+  string mobile = 1;      // 手机号
+  string type = 2;        // 验证码类型 login/register
 }
 
 // PleaseReturn 参数返回三要素
 message PleaseReturn{
-  int64 code=1;
-  string msg =2;
-  google.protobuf.Struct data=3;
+  int64 code = 1;
+  string msg = 2;
+  google.protobuf.Struct data = 3;
 }
